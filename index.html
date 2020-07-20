@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ROCK PAPER SCISSORS</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+  <script>
+  var positionarray =['ROCK','PAPER','SCISSORS'];
+  var result= new Array();
+  var winnumbers = '0';
+  const playerSelection  = playerPlay();
+  const computerSelection = computerPlay();
+
+    function computerPlay(){
+	
+	var randomNumber = Math.floor(Math.random()*positionarray.length);
+	return positionarray [randomNumber];
+		
+	}
+	function playerPlay(){
+	var number = window.prompt("select  a number: 0-ROCK 1-PAPER 2-SCISSORS ");
+	return positionarray [number];
+	}
+	const T='It is a tie !!!';
+	const W='You Won ';
+	const L='You lost';
+
+	function playRound(playerSelectoin, computerSelection){
+	switch(playerSelection){
+	case 'ROCK':
+	switch(computerSelection){
+	case 'ROCK':{
+	result.push('Tie');
+		return T;
+break;	}
+case 'PAPER':{
+result.push('Losse');
+return L;
+break;}
+case 'SCISSORS':{
+result.push('Win');
+winnumbers++;
+return W;
+break;}
+		}
+break;	
+case 'PAPER':
+switch(computerSelection){
+	case 'ROCK':{
+	result.push('Win');
+	winnumbers++;
+		return W;
+break;	}
+case 'PAPER':{
+result.push('Tie');
+return T;
+break;}
+case 'SCISSORS':{
+result.push('Losse');
+return L;
+break;}
+		}
+break;
+case 'SCISSORS':
+switch(computerSelection){
+	case 'ROCK':{
+	result.push('Losse');
+		return L;
+break;	}
+case 'PAPER':{
+result.push('Win');
+winnumbers++;
+return W;
+break;}
+case 'SCISSORS':{
+result.push('Tie');
+return T;
+break;}
+		}
+break;
+	}
+	
+	
+	
+	
+	}
+
+	
+
+	function game(){
+	 result=[];
+   winnumbers=0;
+   var i;
+	for ( i=1; i<=5; i++){
+		
+		playRound(playerPlay(), computerPlay());
+	}
+
+	
+	console.log(result);
+	if (winnumbers >=3) {return 'You won'; }
+	else {return 'you lost';}
+	
+	}
+	
+	/*console.log(playRound(playerSelection, computerSelection));*/
+
+	console.log(game())
+	
+	
+  </script>
+</body>
+</html>
