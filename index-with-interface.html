@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ROCK PAPER SCISSORS</title>
+  <meta charset="UTF-8"/>
+  <link rel="stylesheet" href="style.css">
+  <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+</head>
+<body>
+	<main class="main">
+	<div id="main-menu">
+		<h1>Rock Paper Scissors</h1>
+		<h2 id="RoundNumber">Round Number :</h2>
+		
+
+	</div>
+	<div class="playerSide">
+		<h2>Player Selection</h2>
+
+		<button type="button"  class="button" id="ROCK">Rock</button>
+		<button type="button" class="button" id="PAPER">Paper</button>
+		<button type="button" class="button" id="SCISSORS">Scissors</button>
+
+	</div>
+	<div class="computerSide">
+		<h2>Computer Selection</h2>
+		<p id="computerRock">Rock</p>
+		<p id="computerPaper">Paper</p>
+		<p id="computerScissors">Scissors</p>
+
+
+	</div>
+	<div class="result">
+		<h2 id="gameResult">Game result:</h2>
+		<h2 id="roundResult">Round result: </h2>
+		
+	</div>
+	<div class="stats">
+		<h2> Statistics</h2>
+		<table id="resultTable">
+			<tr>
+				<th>Player</th>
+				<th>Computer</th>
+			</tr>
+		</table><br>
+
+		<button type="button" class="button" id="restart">Restart Round</button>
+		
+
+
+	</div>
+</main>
+  <script>
+  var positionarray =['ROCK','PAPER','SCISSORS'];
+  var resultPlayer= new Array();
+  var resultComputer= new Array();
+  var winnumbers = '0';
+  var playerSelection;
+  var roundNumber=0;
+
+  /*const playerSelection  = playerPlay();
+  const computerSelection = computerPlay();*/
+
+    function computerPlay(){
+	
+	var randomNumber = Math.floor(Math.random()*positionarray.length);
+	return positionarray [randomNumber];
+		
+	}
+	document.getElementById("ROCK").onclick = function() {
+		
+		 playerSelection="ROCK";
+		play(playerSelection);
+		
+		};
+	document.getElementById("PAPER").onclick = function() {
+		
+		playerSelection="PAPER";
+	   play(playerSelection);
+	   
+	   };
+	document.getElementById("SCISSORS").onclick = function() {
+		
+		playerSelection="SCISSORS";
+	   play(playerSelection);
+	   
+	   };	
+
+    document.getElementById("restart").onclick = function() {
+		
+		Restart();
+	   
+	   };	   
+	
+	
+	
+
+	function play(playerSelection){
+		roundNumber++;
+		if (roundNumber <= 5 ){
+		
+		var computerSelection = computerPlay();
+		document.getElementById("computerRock").style.borderRadius = "0%";
+		document.getElementById("computerPaper").style.borderRadius = "0%";
+		document.getElementById("computerScissors").style.borderRadius = "0%";
+
+         /* display computer selection*/
+		switch(computerSelection){
+			case 'ROCK':
+			 document.getElementById("computerRock").style.borderRadius = "50%";
+			 break;
+			case 'PAPER':
+			 document.getElementById("computerPaper").style.borderRadius = "50%";
+			 break;
+			case 'SCISSORS':
+			 document.getElementById("computerScissors").style.borderRadius = "50%";
+			 break;
+		}
+
+		var gameResult =  playRound(playerSelection, computerSelection );
+
+		document.getElementById("gameResult").innerHTML = "Game result:  "+ gameResult;
+		console.log(resultPlayer[resultPlayer.length-1]);
+		
+		document.getElementById("RoundNumber").innerHTML = "Round Number :  "+ roundNumber;
+
+
+		}
+		if (roundNumber == 5 ){
+
+			if (winnumbers >=3) {
+				document.getElementById("roundResult").innerHTML ="Round result: "+ "You Won This round";
+				}
+	          else {
+				document.getElementById("roundResult").innerHTML = "Round result: "+ "You Lost this round";
+			  }
+
+			var t = "";
+             for (var i = 0; i < resultPlayer.length; i++){
+				 var tr = "<tr>";
+				 tr += "<td>"+resultPlayer[i]+"</td>";
+				 tr += "<td>"+resultComputer[i]+"</td>";
+				 tr += "</tr>";
+				 t += tr;
+				}
+		    document.getElementById("resultTable").innerHTML += t;  
+
+
+		}
+	}
+
+	function Restart(){
+		for (var i = resultPlayer.length; i >0 ; i--){
+		document.getElementById("resultTable").deleteRow(i);
+		}
+
+		document.getElementById("computerRock").style.borderRadius = "0%";
+		document.getElementById("computerPaper").style.borderRadius = "0%";
+		document.getElementById("computerScissors").style.borderRadius = "0%";
+
+		roundNumber = 0;
+		document.getElementById("roundResult").innerHTML = "Round result: ";
+		document.getElementById("RoundNumber").innerHTML = "Round Number :  ";
+		document.getElementById("gameResult").innerHTML = "Game result:  ";
+		resultPlayer=[];
+		resultComputer=[];
+		winnumbers=0;
+
+		  
+
+
+	}
+
+	/* Not needed whie using the interface
+	function playerPlay(){
+	var number = window.prompt("select  a number: 0-ROCK 1-PAPER 2-SCISSORS ");
+	return positionarray [number];
+	}*/
+	const T='It is a tie !!!';
+	const W='You Won ';
+	const L='You lost';
+
+	function playRound(playerSelectoin, computerSelection){
+	 switch(playerSelection){
+		 case 'ROCK':
+		 	switch(computerSelection){
+				 case 'ROCK':{
+					 resultPlayer.push('Tie');
+					 resultComputer.push('Tie');
+					 return T;
+					 break;	}
+				case 'PAPER':{
+					resultPlayer.push('Losse');
+					resultComputer.push('Win');
+					return L;
+					break;}
+				case 'SCISSORS':{
+					resultPlayer.push('Win');
+					resultComputer.push('Losse');
+					winnumbers++;
+					return W;
+					break;}
+		     }
+			 break;	
+
+		case 'PAPER':
+		 switch(computerSelection){
+			case 'ROCK':{
+				resultPlayer.push('Win');
+				resultComputer.push('Losse');
+				winnumbers++;
+				return W;
+				break;	
+				}
+			case 'PAPER':{
+				resultPlayer.push('Tie');
+				resultComputer.push('Tie');
+				return T;
+				break;
+				}
+			case 'SCISSORS':{
+				resultPlayer.push('Losse');
+				resultComputer.push('Win');
+				return L;
+				break;
+				}
+
+		 }
+		 break;		 
+		case 'SCISSORS':
+		 switch(computerSelection){
+			 case 'ROCK':{
+				resultPlayer.push('Losse');
+				resultComputer.push('Win');
+				 return L;
+				 break;	
+				 }
+			 case 'PAPER':{
+				resultPlayer.push('Win');
+				resultComputer.push('Losse');
+				 winnumbers++;
+				 return W;
+				 break;
+				 }
+			 case 'SCISSORS':{
+				resultPlayer.push('Tie');
+				resultComputer.push('Tie');
+				 return T;
+				 break;
+				 }
+		 }
+		 break;
+	 }	
+	
+	}
+
+	
+/* console version 5 rounds
+
+	function game(){
+	 resultPlayer=[];
+   winnumbers=0;
+   var i;
+	for ( i=1; i<=5; i++){
+		
+		playRound(playerPlay(), computerPlay());
+	}
+
+	
+	console.log(resultPlayer);
+	if (winnumbers >=3) {return 'You won'; }
+	else {return 'you lost';}
+	
+	}*/
+	
+	/*console.log(playRound(playerSelection, computerSelection));*/
+
+	/*console.log(game())*/
+	
+	
+  </script>
+</body>
+</html>
